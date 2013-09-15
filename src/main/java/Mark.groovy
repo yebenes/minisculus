@@ -1,6 +1,6 @@
 abstract class Mark {
 
-    def ENCODER_WHEEL = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+    def ENCODER_WHEEL = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
             'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
@@ -66,5 +66,23 @@ class MarkIV extends MarkII {
 
     def updateThirdWheelPosition(index) {
         wheel3Position = index
+    }
+}
+
+class MarkIVCracker {
+
+    def code, words
+
+    def crack() {
+        def wheelsConfigurations = []
+        for (wheelPosition in 0..9) {
+            for (wheel2Position in 0..9) {
+                def message = new MarkIV(wheelPosition: wheelPosition, wheel2Position: wheel2Position).decode code
+                if (words.every { word -> message.contains word }) {
+                    wheelsConfigurations += [wheelPosition: wheelPosition, wheel2Position: wheel2Position, message: message]
+                }
+            }
+        }
+        wheelsConfigurations
     }
 }

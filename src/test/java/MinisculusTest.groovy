@@ -16,9 +16,13 @@ public class MinisculusTest extends GroovyTestCase {
     def THIRD_QUESTION = 'The white cliffs of Alghero are visible at night'
     def FOURTH_QUESTION = 'WZyDsL3u\'0TfxP06RtSSF \'DbzhdyFIAu2 zF f5KE"SOQTNA8A"NCKPOKG5D9GSQE\'M86IGFMKE6\'K4pEVPK!bv83I'
 
-    def FINAL_QUESTION_CODE = 'QT4e8MJYVhkls.27BL9,.MSqYSi\'IUpAJKWg9Ul9p4o8oUoGy\'ITd4d0AJVsLQp4kKJB2rz4dxfahwUa"' +
+    def FINAL_CODE = 'QT4e8MJYVhkls.27BL9,.MSqYSi\'IUpAJKWg9Ul9p4o8oUoGy\'ITd4d0AJVsLQp4kKJB2rz4dxfahwUa"' +
             'Wa.MS!k4hs2yY3k8ymnla.MOTxJ6wBM7sC0srXmyAAMl9t"Wk4hs2yYTtH0vwUZp4a"WhB2u,o6.!8Zt"Wf,,eh5tk8WXv9UoM99w2Vr4!' +
             '.xqA,5MSpWl9p4kJ2oUg\'6evkEiQhC\'d5d4k0qA\'24nEqhtAQmy37il9p4o8vdoVr!xWSkEDn?,iZpw24kF"fhGJZMI8nkI'
+
+    def CODE_DECRYPTED = 'We must defend Furlin at all costs or the war will be lost! The supreme leader is in a secret ' +
+            'BUNKER in Western FURLIN.  In this secret bunker he is preparing his new plans for world domination as the ' +
+            'star of many YouTube satire videos.  By the way, does anybody here speak Russian?'
 
     def minisculus = new Minisculus()
 
@@ -64,6 +68,11 @@ public class MinisculusTest extends GroovyTestCase {
         def answer = new MarkIV(wheelPosition: 7, wheel2Position: 2).decode FOURTH_QUESTION
         def response = minisculus.answerQuestion FOURTH_QUESTION_LOCATION, answer
         checkResponse response, FIFTH_REFERENCE_URL, null
+    }
+
+    void 'test 09: Crack final code'() {
+        def solutions = new MarkIVCracker(code: FINAL_CODE, words: ['FURLIN', 'BUNKER']).crack()
+        solutions.every { solution -> assert solution.message == CODE_DECRYPTED }
     }
 
     def checkResponse(response, referenceUrl, question) {
