@@ -11,15 +11,33 @@ abstract class Mark {
 
     def encode(question) {
         def answer = ''
-        question.each { character ->
-            def characterIndex = ENCODER_WHEEL.indexOf(character)
-            def position = (characterIndex + getWheelsMovement(characterIndex)) % ENCODER_WHEEL.size()
-            answer += ENCODER_WHEEL[position]
-        }
+        question.each { character -> answer += ENCODER_WHEEL[getPositionForEncode(character)] }
         answer
     }
 
+    def getPositionForEncode(character) {
+        def characterIndex = ENCODER_WHEEL.indexOf character
+        def encodePosition = (characterIndex + getWheelsMovement(characterIndex)) % ENCODER_WHEEL.size()
+        updateThirdWheelPosition(characterIndex)
+        encodePosition
+    }
+
+    def decode(question) {
+        def answer = ''
+        question.each { character -> answer += ENCODER_WHEEL[getPositionForDecode(character)] }
+        answer
+    }
+
+    def getPositionForDecode(character) {
+        def characterIndex = ENCODER_WHEEL.indexOf character
+        def decodePosition = (characterIndex - getWheelsMovement(characterIndex)) % ENCODER_WHEEL.size()
+        updateThirdWheelPosition(decodePosition)
+        decodePosition
+    }
+
     abstract getWheelsMovement(characterIndex);
+
+    def updateThirdWheelPosition(index) {}
 }
 
 class MarkI extends Mark {
@@ -43,8 +61,10 @@ class MarkIV extends MarkII {
     def wheel3Position = 0
 
     def getWheelsMovement(characterIndex) {
-        def encodeIndex = super.getWheelsMovement(characterIndex) + wheel3Position * 2
-        wheel3Position = characterIndex
-        encodeIndex
+        super.getWheelsMovement(characterIndex) + wheel3Position * 2
+    }
+
+    def updateThirdWheelPosition(index) {
+        wheel3Position = index
     }
 }

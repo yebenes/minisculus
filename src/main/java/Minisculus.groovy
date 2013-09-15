@@ -19,7 +19,7 @@ class Minisculus {
             body = ['answer' : answer]
 
             response.success = { response, json ->
-                [status: response.status, question: json['question'], referenceUrl: json['reference-url']]
+                [status: response.status, question: json['question'], referenceUrl: json['reference-url'], code: json['code']]
             }
         }
     }
