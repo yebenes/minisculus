@@ -12,19 +12,20 @@ abstract class Mark {
     def encode(question) {
         def answer = ''
         question.each { character ->
-            def position = (ENCODER_WHEEL.indexOf(character) + getWheelsMovement()) % ENCODER_WHEEL.size()
+            def characterIndex = ENCODER_WHEEL.indexOf(character)
+            def position = (characterIndex + getWheelsMovement(characterIndex)) % ENCODER_WHEEL.size()
             answer += ENCODER_WHEEL[position]
         }
         answer
     }
 
-    abstract getWheelsMovement();
+    abstract getWheelsMovement(characterIndex);
 }
 
 class MarkI extends Mark {
 
-    def getWheelsMovement() {
-        return wheelPosition
+    def getWheelsMovement(characterIndex) {
+        wheelPosition
     }
 }
 
@@ -32,7 +33,18 @@ class MarkII extends Mark {
 
     def wheel2Position
 
-    def getWheelsMovement() {
-        return wheelPosition - (wheel2Position * 2)
+    def getWheelsMovement(characterIndex) {
+        wheelPosition - wheel2Position * 2
+    }
+}
+
+class MarkIV extends MarkII {
+
+    def wheel3Position = 0
+
+    def getWheelsMovement(characterIndex) {
+        def encodeIndex = super.getWheelsMovement(characterIndex) + wheel3Position * 2
+        wheel3Position = characterIndex
+        encodeIndex
     }
 }
