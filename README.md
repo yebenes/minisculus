@@ -1,4 +1,4 @@
 minisculus
 ==========
 
-Minisculus Challenge
+Minisculus Challenge - http://minisculuschallenge.com/index.html
