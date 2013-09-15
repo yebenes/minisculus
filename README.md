@@ -1,4 +1,4 @@
-minusculus
+minisculus
 ==========
 
-Minusculus Challenge
+Minisculus Challenge
