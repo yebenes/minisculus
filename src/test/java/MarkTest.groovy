@@ -9,4 +9,9 @@ class MarkTest extends GroovyTestCase {
         def answer = new MarkI(wheelPosition: 5).encode('c')
         assert 'h' == answer
     }
+
+    void 'test 03: Encode with MarkII text abc with wheels position 2 and 5'() {
+        def answer = new MarkII(wheelPosition: 2, wheel2Position: 5).encode('abc')
+        assert 'STU' == answer
+    }
 }
